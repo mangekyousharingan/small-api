@@ -11,10 +11,10 @@ def make_http_controller() -> FastAPI:
 
     @controller.get("/v1/blocks/{block_num}")
     def blocks(block_num: int) -> Response:
-        return Response("blocks")
+        return Response(f"blocks: {block_num}")
 
     @controller.get("/v1/signatures/{signature}")
     def signatures(signature: str) -> Response:
-        return Response("signatures")
+        return Response(f"signatures: {signature}")
 
     return controller

@@ -1,20 +1,23 @@
 from dataclasses import dataclass, field
-from typing import Optional
+
 
 import uvicorn
 from fastapi import FastAPI
 
+from src.controllers.http import make_http_controller
+
 
 @dataclass
 class SmallApi:
-    http_controller: Optional[FastAPI] = None
-    config: dict = None
+    http_controller: FastAPI = field(init=False)
+    config: dict = field(init=False)
 
     def load_config(self) -> None:
         print("Loading config...")
 
     def set_up(self) -> None:
         print("Setting up...")
+        self.http_controller = make_http_controller()
 
     def start_service(self) -> None:
         uvicorn.run(self.http_controller, port=8080, host="0.0.0.0")
