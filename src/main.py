@@ -1,8 +1,4 @@
-from fastapi import FastAPI
+from src.app import SmallApi
 
-app = FastAPI()
-
-
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
+small_api = SmallApi()
+small_api.set_up_and_start_service()
