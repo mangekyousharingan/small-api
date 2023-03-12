@@ -1,10 +1,9 @@
 from dataclasses import dataclass, field
 
-
-import uvicorn
 from fastapi import FastAPI
+import uvicorn
 
-from src.controllers.http import make_http_controller
+from controllers.http import make_http_controller
 
 
 @dataclass

@@ -6,7 +6,7 @@ def make_http_controller() -> FastAPI:
     controller = FastAPI()
 
     @controller.get("/")
-    def health():
+    def health() -> Response:
         return Response("OK")
 
     @controller.get("/v1/blocks/{block_num}")
