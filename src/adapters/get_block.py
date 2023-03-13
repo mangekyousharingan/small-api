@@ -3,11 +3,11 @@ import json
 
 import requests
 
-from ports.node import Node
+from ports.node_provider import NodeProvider
 
 
 @dataclass
-class GetBlock(Node):
+class GetBlockIo(NodeProvider):
     _url: str = "https://eth.getblock.io/mainnet/"
     _api_key: str = "7203d8ab-29f8-46d1-b81a-4f1f0cea5b7a"
     _headers = {"x-api-key": _api_key, "Content-Type": "application/json"}
@@ -18,14 +18,10 @@ class GetBlock(Node):
         "id": "getblock.io",
     }
 
-    def get_block(self, block_num: int) -> dict:
-        self._payload["params"] = [hex(block_num), False]
+    def get_block(self, block_number: int) -> dict:
+        self._payload["params"] = [hex(block_number), False]
         response = requests.post(
             self._url, headers=self._headers, data=json.dumps(self._payload)
         )
         response_json = response.json()
         return response_json
-
-
-gb = GetBlock()
-print(gb.get_block(26803))

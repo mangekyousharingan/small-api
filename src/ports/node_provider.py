@@ -3,7 +3,7 @@ from dataclasses import dataclass
 
 
 @dataclass
-class Node(ABC):
+class NodeProvider(ABC):
     @abstractmethod
     def get_block(self, block_num: int) -> dict:
         pass

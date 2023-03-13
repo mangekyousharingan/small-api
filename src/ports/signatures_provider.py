@@ -3,7 +3,7 @@ from dataclasses import dataclass
 
 
 @dataclass
-class Signatures(ABC):
+class SignaturesProvider(ABC):
     @abstractmethod
     def get_signatures(self) -> dict:
         pass
