@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 
 @dataclass
-class GetBlockResponse:
+class BlockDataResponse:
     gas_limit: int
     gas_used: int
     number: int
