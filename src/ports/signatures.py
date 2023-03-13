@@ -4,7 +4,6 @@ from dataclasses import dataclass
 
 @dataclass
 class Signatures(ABC):
-
     @abstractmethod
-    def get_signatures(self):
+    def get_signatures(self) -> dict:
         pass
