@@ -28,7 +28,7 @@ class BlockInfoResponse:
 
 
 @dataclass
-class SignaturesResponse:
+class SignaturesInfoResponse:
     data: list[dict[str, str]]
     page_size: int
     is_last_page: bool

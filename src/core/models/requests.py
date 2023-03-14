@@ -17,7 +17,7 @@ class BlocInfoRequest:
 
 
 @dataclass
-class SignaturesDataRequest:
+class SignaturesInfoRequest:
     signature: str
     _page_number: int = 1
     _page_size: int = 10
@@ -29,7 +29,7 @@ class SignaturesDataRequest:
     @page_number.setter
     def page_number(self, value: int) -> None:
         if not value > 0:
-            raise ValueError(f"Page number must be greater than {value}")
+            raise ValueError("Page number must be greater than 0")
         self._page_number = value
 
     @property
@@ -40,4 +40,4 @@ class SignaturesDataRequest:
     def page_size(self, value: int) -> None:
         if value not in range(1, 11):
             raise ValueError("Page size must be in range 1-10")
-        self.page_size = value
+        self._page_size = value
