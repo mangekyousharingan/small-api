@@ -14,7 +14,7 @@ class GetBlockIo(NodeProvider):
     _payload = {
         "jsonrpc": "2.0",
         "method": "eth_getBlockByNumber",
-        "params": [1, True],
+        "params": [],
         "id": "getblock.io",
     }
 
