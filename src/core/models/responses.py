@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 
+from pydantic import BaseModel
+
 
 @dataclass
 class BlockInfoResponse:
@@ -27,8 +29,5 @@ class BlockInfoResponse:
         return int(value, 16)
 
 
-@dataclass
-class SignaturesInfoResponse:
-    data: list[dict[str, str]]
-    page_size: int
-    is_last_page: bool
+class SignaturesInfoResponse(BaseModel):
+    name: str

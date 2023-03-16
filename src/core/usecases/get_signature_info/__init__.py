@@ -10,22 +10,18 @@ from ports.signatures_provider import SignaturesProvider
 class SignatureInfo:
     provider_factory: Callable[[], SignaturesProvider]
 
-    def __call__(self, request: SignaturesInfoRequest) -> SignaturesInfoResponse:
+    def __call__(self, request: SignaturesInfoRequest) -> list[SignaturesInfoResponse]:
         signatures_provider = self.provider_factory()
-        response_json = signatures_provider.get_signatures(
-            request.hex_signature, request.page_size, request.page_number
-        )
-        signatures_info_response = self._prepare_response(response_json)
+        signatures_info_response = []
+        for response_json in signatures_provider.get_signatures(request.hex_signature):
+            for signature_info in self._prepare_response(response_json):
+                signatures_info_response.append(signature_info)
+
         return signatures_info_response
 
     def _prepare_response(
         self, signatures_provider_response: dict
     ) -> SignaturesInfoResponse:
-        #  TODO:  one signature might have multiple names, adjust for pagination
         results = signatures_provider_response["results"]
-        signature_info_response = SignaturesInfoResponse(
-            data=[{"name": data["text_signature"]} for data in results],
-            page_size=signatures_provider_response["count"],
-            is_last_page=True if not signatures_provider_response["next"] else False,
-        )
-        return signature_info_response
+        for siganture_info in results:
+            yield SignaturesInfoResponse(name=siganture_info["text_signature"])

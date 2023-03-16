@@ -1,10 +1,12 @@
 import dataclasses
 
 from fastapi import FastAPI, Path, Query
+from fastapi_pagination import Page, add_pagination, paginate
 from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
 
 from core.models.requests import BlocInfoRequest, SignaturesInfoRequest
+from core.models.responses import SignaturesInfoResponse
 from core.usecases.get_block_info import BlockInfo
 from core.usecases.get_signature_info import SignatureInfo
 
@@ -33,7 +35,11 @@ def make_http_controller(
         response = block_info_usecase(block_info_request)
         return JSONResponse(content=dataclasses.asdict(response))
 
-    @controller.get("/v1/signatures/{signature}")
+    @controller.get(
+        "/v1/signatures/{signature}",
+        response_model=Page[SignaturesInfoResponse]
+        # TODO: reorganize Page to custom to get proper output.
+    )
     def signatures(
         signature: str = Path(
             description="ETH function hex signature", example="0x0bb1e8a0"
@@ -42,9 +48,9 @@ def make_http_controller(
         page_number: int = Query(default=1, description="Page number starting at 1"),
     ) -> JSONResponse:
         signature_info_request = SignaturesInfoRequest(signature)
-        signature_info_request.page_size = page_size
-        signature_info_request.page_number = page_number
         response = signature_info_usecase(signature_info_request)
-        return JSONResponse(content=dataclasses.asdict(response))
+        return paginate(response)
+
+    add_pagination(controller)
 
     return controller
