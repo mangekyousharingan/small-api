@@ -23,5 +23,6 @@ class GetBlockIo(NodeProvider):
         response = requests.post(
             self._url, headers=self._headers, data=json.dumps(self._payload)
         )
+        self._validate_response(response)
         response_json = response.json()
         return response_json

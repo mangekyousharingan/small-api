@@ -13,6 +13,7 @@ class Byte4(SignaturesProvider):
     def get_signatures(self, hex_signature: str) -> Iterable[dict]:
         params = {"hex_signature": hex_signature}
         response = requests.get(self._url, params=params)
+        self._validate_response(response)
         response_json = response.json()
         yield response_json
 
@@ -20,5 +21,6 @@ class Byte4(SignaturesProvider):
         # as it might have multiple names.
         while url := response_json["next"]:
             response = requests.get(url)
+            self._validate_response(response)
             response_json = response.json()
             yield response_json
