@@ -1,12 +1,13 @@
-import dataclasses
+from typing import Any
 
-from fastapi import FastAPI, Path, Query
-from fastapi_pagination import Page, add_pagination, paginate
+from fastapi import FastAPI, Path
+from fastapi_pagination import add_pagination, paginate
 from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
 
+from core.models.pagination import Page
 from core.models.requests import BlocInfoRequest, SignaturesInfoRequest
-from core.models.responses import SignaturesInfoResponse
+from core.models.responses import BlockInfoResponse, SignaturesInfoResponse
 from core.usecases.get_block_info import BlockInfo
 from core.usecases.get_signature_info import SignatureInfo
 
@@ -20,20 +21,21 @@ def make_http_controller(
     async def http_exception_handler(request: Request, exc: ValueError) -> JSONResponse:
         print(type(request))
         print(type(exc))
+        print(str(exc))
         return JSONResponse(status_code=400, content={"error": str(exc)})
 
     @controller.get("/")
     def health() -> Response:
         return Response("OK")
 
-    @controller.get("/v1/blocks/{block_number}")
+    @controller.get("/v1/blocks/{block_number}", response_model=BlockInfoResponse)
     def blocks(
         block_number: int = Path(description="The height of the block"),
-    ) -> JSONResponse:
+    ) -> Any:
         block_info_request = BlocInfoRequest()
         block_info_request.block_number = block_number
         response = block_info_usecase(block_info_request)
-        return JSONResponse(content=dataclasses.asdict(response))
+        return response
 
     @controller.get(
         "/v1/signatures/{signature}",
@@ -43,10 +45,8 @@ def make_http_controller(
     def signatures(
         signature: str = Path(
             description="ETH function hex signature", example="0x0bb1e8a0"
-        ),
-        page_size: int = Query(default=10, description="Page size in range 1-10"),
-        page_number: int = Query(default=1, description="Page number starting at 1"),
-    ) -> JSONResponse:
+        )
+    ) -> Any:
         signature_info_request = SignaturesInfoRequest(signature)
         response = signature_info_usecase(signature_info_request)
         return paginate(response)
