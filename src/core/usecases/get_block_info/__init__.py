@@ -19,9 +19,12 @@ class BlockInfo:
 
     def _prepare_response(self, node_provider_response: dict) -> BlockInfoResponse:
         return BlockInfoResponse(
-            gas_limit=node_provider_response["gasLimit"],
-            gas_used=node_provider_response["gasUsed"],
-            number=node_provider_response["number"],
-            difficulty=node_provider_response["difficulty"],
-            total_difficulty=node_provider_response["totalDifficulty"],
+            gas_limit=self._convert(node_provider_response["gasLimit"]),
+            gas_used=self._convert(node_provider_response["gasUsed"]),
+            number=self._convert(node_provider_response["number"]),
+            difficulty=self._convert(node_provider_response["difficulty"]),
+            total_difficulty=self._convert(node_provider_response["totalDifficulty"]),
         )
+
+    def _convert(self, value: str) -> int:
+        return int(value, 16)
