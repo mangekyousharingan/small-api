@@ -1,7 +1,5 @@
 from dataclasses import dataclass, field
 
-from fastapi.exceptions import RequestValidationError
-
 
 @dataclass
 class BlocInfoRequest:
@@ -14,7 +12,7 @@ class BlocInfoRequest:
     @block_number.setter
     def block_number(self, value: int) -> None:
         if not value > 0:
-            raise RequestValidationError("Block number must be greater than 0")
+            raise ValueError("Block number must be greater than 0")
         self._block_number = value
 
 

@@ -2,6 +2,7 @@ from typing import Any
 
 from fastapi import FastAPI, Path
 from fastapi_pagination import add_pagination, paginate
+from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
 
 from core.models.pagination import Page
@@ -17,7 +18,7 @@ def make_http_controller(
     controller = FastAPI()
 
     @controller.exception_handler(Exception)
-    async def http_exception_handler(exc: Exception) -> JSONResponse:
+    async def http_exception_handler(request: Request, exc: Exception) -> JSONResponse:
         return JSONResponse(status_code=500, content={"error": str(exc)})
 
     @controller.get("/")
