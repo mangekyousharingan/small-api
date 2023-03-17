@@ -1,0 +1,62 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.28.2
+    method: GET
+    uri: https://www.4byte.directory/api/v1/signatures/?hex_signature=0x562b706c
+  response:
+    body:
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":951566,"created_at":"2023-03-16T13:22:50.067312Z","text_signature":"_resumePausableContract(address)","hex_signature":"0x562b706c","bytes_signature":"V+pl"}]}'
+    headers:
+      Allow:
+      - GET, POST, HEAD, OPTIONS
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 17 Mar 2023 18:39:15 GMT
+      Server:
+      - nginx/1.14.2
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept, Cookie
+      X-Frame-Options:
+      - SAMEORIGIN
+    status:
+      code: 200
+      message: OK
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      host:
+      - testserver
+      user-agent:
+      - testclient
+    method: GET
+    uri: http://testserver/v1/signatures/0x562b706c
+  response:
+    content: '{"data":[{"name":"_resumePausableContract(address)"}],"page_size":1,"is_last_page":true}'
+    headers:
+      content-length:
+      - '88'
+      content-type:
+      - application/json
+    http_version: HTTP/1.1
+    status_code: 200
+version: 1
