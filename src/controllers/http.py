@@ -19,7 +19,10 @@ def make_http_controller(
 
     @controller.exception_handler(Exception)
     async def http_exception_handler(request: Request, exc: Exception) -> JSONResponse:
-        return JSONResponse(status_code=500, content={"error": str(exc)})
+        return JSONResponse(
+            status_code=500,
+            content={"message": "Something went wrong!", "error": str(exc)},
+        )
 
     @controller.get("/")
     def health() -> Response:

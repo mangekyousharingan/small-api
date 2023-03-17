@@ -1,11 +1,10 @@
 #  type: ignore
 from abc import ABC
 from math import ceil
-from typing import Any, Generic, Optional, Sequence, TypeVar
+from typing import Any, Generic, Sequence, TypeVar
 
 from fastapi import Query
 from fastapi_pagination.bases import AbstractPage, AbstractParams, RawParams
-from fastapi_pagination.types import GreaterEqualOne
 from pydantic import BaseModel
 
 T = TypeVar("T")
@@ -13,7 +12,7 @@ T = TypeVar("T")
 
 class Params(BaseModel, AbstractParams):
     page_number: int = Query(1, ge=1, description="Page number")
-    page_size: int = Query(10, ge=1, le=100, description="Page size")
+    page_size: int = Query(10, ge=1, le=10, description="Page size")
 
     def to_raw_params(self) -> RawParams:
         return RawParams(
@@ -27,19 +26,15 @@ class BasePage(AbstractPage[T], Generic[T], ABC):
 
 
 class Page(BasePage[T], Generic[T]):
-    page_size: Optional[GreaterEqualOne]
+    page_size: int
     is_last_page: bool
 
     __params_type__ = Params
 
     @classmethod
     def create(
-        cls,
-        items: Sequence[T],
-        params: AbstractParams,
-        total: int,
-        **kwargs: Any,
-    ) -> T:
+        cls, items: "Sequence[T]", params: "AbstractParams", total: int, **kwargs: "Any"
+    ) -> "T":
         if not isinstance(params, Params):
             raise ValueError("Page should be used with Params")
 
@@ -48,7 +43,7 @@ class Page(BasePage[T], Generic[T]):
 
         return cls(
             data=items,
-            page_size=params.page_size,
+            page_size=len(items),
             is_last_page=is_last_page,
             **kwargs,
         )
