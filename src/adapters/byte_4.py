@@ -8,11 +8,11 @@ from ports.signatures_provider import SignaturesProvider
 
 @dataclass
 class Byte4(SignaturesProvider):
-    _url: str = "https://www.4byte.directory/api/v1/signatures/"
+    url: str
 
     def get_signatures(self, hex_signature: str) -> Iterable[dict]:
         params = {"hex_signature": hex_signature}
-        response = requests.get(self._url, params=params)
+        response = requests.get(self.url, params=params)
         self._validate_response(response)
         response_json = response.json()
         yield response_json

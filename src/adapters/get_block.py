@@ -8,20 +8,22 @@ from ports.node_provider import NodeProvider
 
 @dataclass
 class GetBlockIo(NodeProvider):
-    _url: str = "https://eth.getblock.io/mainnet/"
-    _api_key: str = "7203d8ab-29f8-46d1-b81a-4f1f0cea5b7a"  # TODO: usually I am not pushing api keys to public repos :D
-    _headers = {"x-api-key": _api_key, "Content-Type": "application/json"}
-    _payload = {
+    url: str
+    api_key: str
+    payload = {
         "jsonrpc": "2.0",
         "method": "eth_getBlockByNumber",
         "params": [],
         "id": "getblock.io",
     }
 
+    def __post_init__(self) -> None:
+        self._headers = {"x-api-key": self.api_key, "Content-Type": "application/json"}
+
     def get_block(self, block_number: int) -> dict:
-        self._payload["params"] = [hex(block_number), False]
+        self.payload["params"] = [hex(block_number), False]
         response = requests.post(
-            self._url, headers=self._headers, data=json.dumps(self._payload)
+            self.url, headers=self._headers, data=json.dumps(self.payload)
         )
         self._validate_response(response)
         response_json = response.json()

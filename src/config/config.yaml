@@ -1,0 +1,10 @@
+providers:
+  node:
+    getBlock:
+#      api_key: ${GETBLOCK_API_KEY}
+      api_key: "7203d8ab-29f8-46d1-b81a-4f1f0cea5b7a"
+      url: "https://eth.getblock.io/mainnet/"
+
+  signatures:
+    byte_4:
+      url: "https://www.4byte.directory/api/v1/signatures/"
