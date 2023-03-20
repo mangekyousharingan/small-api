@@ -2,12 +2,17 @@
 from fastapi import FastAPI
 from pytest import fixture
 from starlette.testclient import TestClient
+import vcr
 import yaml
 
 from src.adapters.adapters_factory import AdaptersFactory
 from src.controllers.http import make_http_controller
 from src.core.usecases.get_block_info import BlockInfo
 from src.core.usecases.get_signature_info import SignatureInfo
+
+vcr = vcr.VCR(
+    cassette_library_dir="./cassettes", filter_headers=[("x-api-key", "XXXXXX")]
+)
 
 
 @fixture

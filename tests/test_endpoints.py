@@ -1,10 +1,7 @@
 # type: ignore
 from starlette.testclient import TestClient
-import vcr
 
-vcr = vcr.VCR(
-    cassette_library_dir="./cassettes", filter_headers=[("x-api-key", "XXXXXX")]
-)
+from tests.conftest import vcr
 
 
 def test_health(client: TestClient):
