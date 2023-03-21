@@ -41,7 +41,7 @@ interactions:
       content-type:
       - application/json
       date:
-      - Fri, 17 Mar 2023 18:39:14 GMT
+      - Tue, 21 Mar 2023 12:42:55 GMT
       server:
       - envoy
       vary:
@@ -49,7 +49,7 @@ interactions:
       x-cluster:
       - Shared nodes
       x-envoy-upstream-service-time:
-      - '151'
+      - '78'
     status:
       code: 200
       message: OK

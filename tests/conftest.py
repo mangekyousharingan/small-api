@@ -11,7 +11,7 @@ from src.core.usecases.get_block_info import BlockInfo
 from src.core.usecases.get_signature_info import SignatureInfo
 
 vcr = vcr.VCR(
-    cassette_library_dir="./cassettes", filter_headers=[("x-api-key", "XXXXXX")]
+    cassette_library_dir="../tests/cassettes", filter_headers=[("x-api-key", "XXXXXX")]
 )
 
 
